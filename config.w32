@@ -1,0 +1,7 @@
+ARG_ENABLE('easy_science', 'easy_science support', 'no');
+
+if (PHP_EASY_SCIENCE != 'no') {
+	AC_DEFINE('HAVE_EASY_SCIENCE', 1, 'easy_science support enabled');
+
+	EXTENSION('easy_science', 'easy_science.c', null, '/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1');
+}
