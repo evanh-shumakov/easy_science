@@ -8,6 +8,8 @@
 #include "ext/standard/info.h"
 #include "php_easy_science.h"
 #include "easy_science_arginfo.h"
+#include <math.h>
+#include <stdio.h>
 
 /* For compatibility with older PHP versions */
 #ifndef ZEND_PARSE_PARAMETERS_NONE
@@ -40,6 +42,68 @@ PHP_FUNCTION(test2)
 	retval = strpprintf(0, "Hello %s", var);
 
 	RETURN_STR(retval);
+}
+/* }}}*/
+
+static double to_radian(double degree)
+{
+	return degree * (3.141592653589793 / 180.0);
+}
+
+static double round_to(double number, int digits_after_decimal_point)
+{
+	double equalizer = pow(10.0, digits_after_decimal_point);
+        return round(number * equalizer) / equalizer;
+}
+
+static double round_to_15(double number)
+{
+	int digits_after_decimal = 15;
+	return round_to(number, digits_after_decimal);
+}
+
+/* {{{ string sine( [ float $degree ] ) */
+PHP_FUNCTION(sine)
+{
+    double degree;
+
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+        Z_PARAM_DOUBLE(degree)
+    ZEND_PARSE_PARAMETERS_END();
+
+    double radian = to_radian(degree);
+
+    RETURN_DOUBLE(round_to_15(sin(radian)));
+}
+/* }}}*/
+
+/* {{{ string cosine( [ float $degree ] ) */
+PHP_FUNCTION(cosine)
+{
+    double degree;
+
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+        Z_PARAM_DOUBLE(degree)
+    ZEND_PARSE_PARAMETERS_END();
+
+    double radian = to_radian(degree);
+
+    RETURN_DOUBLE(round_to_15(cos(radian)));
+}
+/* }}}*/
+
+/* {{{ string tangent( [ float $degree ] ) */
+PHP_FUNCTION(tangent)
+{
+    double degree;
+
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+        Z_PARAM_DOUBLE(degree)
+    ZEND_PARSE_PARAMETERS_END();
+
+    double radian = to_radian(degree);
+
+    RETURN_DOUBLE(round_to_15(tan(radian)));
 }
 /* }}}*/
 
